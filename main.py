@@ -3,6 +3,12 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import os
+#Used to send emails
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+password = os.environ["PASSWORD"]
 
 
 
@@ -12,7 +18,34 @@ class MainHandler(tornado.web.RequestHandler):
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/contact.html")
+    def post(self):
+        name=self.get_body_argument("name")
+        fromaddr = self.get_body_argument("email")
+        phone_number= self.get_body_argument("phone")
+        message= self.get_body_argument("message")
+        toaddr="sharabesh@berkeley.edu"
 
+        msg = MIMEMultipart()
+        msg['From'] = fromaddr
+        msg['To'] = toaddr
+        msg['Subject'] = "Contact from my website"
+
+        body = "Name: {0}".format(name)
+        body += "\n"
+        body += "Phone Number: {0}".format(phone_number)
+        body += "\n"
+        body += "From: {0}".format(fromaddr)
+        body += message
+
+        msg.attach(MIMEText(body,'plain'))
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("sharabesh97@gmail.com", password)
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
+        server.quit()
+        self.redirect("/")
 
 
 
