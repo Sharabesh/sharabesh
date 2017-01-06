@@ -47,6 +47,9 @@ class ContactHandler(tornado.web.RequestHandler):
         server.quit()
         self.redirect("/")
 
+class EducationHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("static/html/education.html")
 
 
 settings = {
@@ -60,7 +63,8 @@ def make_app():
         (r"/static/(.*)",tornado.web.StaticFileHandler,
          dict(path=settings["static_path"])),
         (r"/", MainHandler),
-        (r"/contact",ContactHandler)
+        (r"/contact",ContactHandler),
+        (r"/education",EducationHandler)
     ], debug=True)
 
 
