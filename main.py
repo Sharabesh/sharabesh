@@ -35,6 +35,7 @@ class ContactHandler(tornado.web.RequestHandler):
         body += "Phone Number: {0}".format(phone_number)
         body += "\n"
         body += "From: {0}".format(fromaddr)
+        body += "\n"
         body += message
 
         msg.attach(MIMEText(body,'plain'))
