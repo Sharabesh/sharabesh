@@ -129,12 +129,12 @@ var radarOptions = {
 
 // Radar Data
 var radarData = {
-	labels : ["January","February","March","April","May","June","July"],
+	labels : ["Git","Docker","Jupyter Notebook","Heroku","EAGLE","Flask","Python Tornado"],
 	datasets : [
 		{
 			fillColor : "rgba(151,187,205,0.5)",
 			strokeColor : "rgba(151,187,205,1)",
-			data : [28,48,40,19,96,27,100]
+			data : [90,60,70,80,76,80,90]
 		}
 	]
 };
