@@ -20,6 +20,7 @@
     <link href="static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -160,35 +161,59 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="feature">
-                    <h3>Technical Proficiencies</h3>
-                    <ul style="font-size:1.25em">
-                        <li>Git</li>
-                        <li>Docker</li>
-                        <li>Apache Spark</li>
-                        <li>Jupyter Notebooks</li>
-                        <li>Heroku</li>
-                        <li>EAGLE</li>
-                        <li>Flask</li>
-                        <li>Tornado</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="feature">
-                    <h3>Programming Proficiencies</h3>
-                    <ul style="font-size:1.25em">
-                        <li>Python</li>
-                        <li>Java</li>
-                        <li>Javascript</li>
-                        <li>PHP</li>
-                        <li>MySQL</li>
-                        <li>PostGreSQL</li>
-                        <li>MongoDB</li>
-                    </ul>
-                </div>
-            </div>
+            <!--<div class="col-md-6">-->
+                <!--<div class="feature">-->
+                    <!--<h3>Technical Proficiencies</h3>-->
+                    <!--<ul style="font-size:1.25em">-->
+                        <!--<li>Git</li>-->
+                        <!--<li>Docker</li>-->
+                        <!--<li>Apache Spark</li>-->
+                        <!--<li>Jupyter Notebooks</li>-->
+                        <!--<li>Heroku</li>-->
+                        <!--<li>EAGLE</li>-->
+                        <!--<li>Flask</li>-->
+                        <!--<li>Tornado</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="col-md-6">-->
+                <!--<div class="feature">-->
+                    <!--<h3>Programming Proficiencies</h3>-->
+                    <!--<ul style="font-size:1.25em">-->
+                        <!--<li>Python</li>-->
+                        <!--<li>Java</li>-->
+                        <!--<li>Javascript</li>-->
+                        <!--<li>PHP</li>-->
+                        <!--<li>MySQL</li>-->
+                        <!--<li>PostGreSQL</li>-->
+                        <!--<li>MongoDB</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+<div class="bargraph">
+  <!-- Radar Chart -->
+  <div class="chart-demo col-md-6">
+    <h3 class="title" style="text-align:left;">Programming Proficiencies</h3>
+    <canvas id="programming" width="500" height="400"></canvas>
+	  <script src="static/js/programmingProficiencies.js"></script>
+	  </div>
+  <div class="chart-demo col-md-6">
+    <h3 class="title">Technical Proficiencies</h3>
+    <canvas id="radarChart2" width="500" height="400"></canvas>
+	  <script src="static/js/technicalProficiencies.js"></script>
+	  </div>
+	</div>
+<style>
+.bargraph .title {
+  text-align: center;
+  color: #000000;
+}
+.chart-demo {
+  float: left;
+  width: 500px;
+}
+</style>
         </div><!-- End row -->
         </div><!-- End container-->
     </section><!-- End main-features -->
