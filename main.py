@@ -51,6 +51,9 @@ class ContactHandler(tornado.web.RequestHandler):
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/education.html")
+class KernalHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("static/html/Kernels.html")
 
 
 settings = {
@@ -65,7 +68,8 @@ def make_app():
          dict(path=settings["static_path"])),
         (r"/", MainHandler),
         (r"/contact",ContactHandler),
-        (r"/education",EducationHandler)
+        (r"/education",EducationHandler),
+        (r"/coding",KernalHandler)
     ], debug=True)
 
 
