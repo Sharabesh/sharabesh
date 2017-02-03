@@ -70,7 +70,7 @@ def make_app():
         (r"/contact",ContactHandler),
         (r"/education",EducationHandler),
         (r"/coding",KernalHandler)
-    ], debug=True)
+    ], debug=True, compress_response=True)
 
 
 
