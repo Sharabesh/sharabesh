@@ -89,12 +89,13 @@
 
     <!-- Header -->
     <header>
-        <div class="container">
+        <div id ='particles-js' class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img class="img-responsive" src="static/img/profile.png" alt="">
+                    <!--<img class="img-responsive" src="static/img/profile.png" alt="">-->
                     <div class="intro-text">
-                        <span class="name">Welcome</span>
+
+                        <h5 class="name"><em>Welcome to my page</em></h5>
                         <hr class="star-light">
                         <span class="skills">Researcher - Computer Scientist - Student</span>
                     </div>
@@ -102,7 +103,12 @@
             </div>
         </div>
     </header>
-
+    <script src="static/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js','static/js/particles.json',function() {
+            console.log('loaded');
+        });
+    </script>
     <!-- Portfolio Grid Section -->
     <section id="portfolio">
         <div class="container">
