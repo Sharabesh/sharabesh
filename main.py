@@ -14,7 +14,7 @@ password = os.environ["PASSWORD"]
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/index.html")
+        self.render("static/html/index.html",failure=0)
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/contact.html")
@@ -40,13 +40,17 @@ class ContactHandler(tornado.web.RequestHandler):
 
         msg.attach(MIMEText(body,'plain'))
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login("sharabesh97@gmail.com", password)
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
-        server.quit()
-        self.redirect("/")
+        try:
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login("sharabesh97@gmail.com", password)
+            text = msg.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+            server.quit()
+            self.redirect("/",failure=0)
+        except:
+            self.redirect("/",failure=1)  
+
 
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):

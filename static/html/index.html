@@ -94,6 +94,12 @@
                 <div class="col-lg-12">
                     <!--<img class="img-responsive" src="static/img/profile.png" alt="">-->
                     <div class="intro-text">
+                    <div class="alert alert-danger"
+                        {% if failure !=1 %}
+                            style="display: none;"
+                            {% end %}>
+                        <strong>Oh snap!</strong> Unfortunately, the mail server is down. Please contact Sharabesh directly through sharabesh (at) berkeley.edu
+                    </div>
 
                         <h6 class="skills" style="font-size: xx-large">Sharabesh Ramesh</h6>
                         <h6 class="skills">UC Berkeley Computer Science</h6>
@@ -261,7 +267,7 @@
                         for neuro-imaging literature as well as Lab Assisting
                         for Berkeley’s introductory computer science course.
                         Links and images of my work are above.
-                        Please feel free to <a href="https://sharabesh.herokuapp.com/contact" style="color:white;text-decoration: underline">
+                        Please feel free to <a href="/contact" style="color:white;text-decoration: underline">
                         reach out to me</a> with any questions
                         or concerns.
                     </p>
