@@ -8,7 +8,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-password = os.environ["PASSWORD"]
+try:
+    password = os.environ["PASSWORD"]
+except:
+    print("Mail Server Offline. Please load password to continue")
 
 
 
