@@ -50,14 +50,15 @@ class ContactHandler(tornado.web.RequestHandler):
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
-            self.redirect("/",failure=0)
+            self.redirect("/")
         except:
-            self.redirect("/",failure=1)  
+            self.render("static/html/index.html",failure=1)
 
 
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/education.html")
+
 class KernalHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/Kernels.html")
