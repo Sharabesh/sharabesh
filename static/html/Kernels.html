@@ -11,6 +11,16 @@
 
     <title>Coding</title>
 
+    <!-- jQuery -->
+    <script src="static/css/vendor/jquery/jquery.min.js"></script>
+
+
+    <!--For Brain Graphics-->
+    <script src="static/js/detector.js"></script>
+    <script src="static/js/three.min.js"></script>
+    <script src="static/js/brain_graphics.js"></script>
+
+
     <!-- Bootstrap Core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -100,7 +110,7 @@
                 <div class="col-lg-12 text-center">
                     <h2>Coding Terminals</h2>
                     <hr class="star-light">
-                    <h3>Java</h3>
+                    <h3>Java 8</h3>
                     <iframe src="http://www.javarepl.com/embed.html" style="width: 100%; height: 350px; border: 1px;" align="center"></iframe>
                     <p><br></p>
                     <h3>Python 3.5</h3>
@@ -109,10 +119,32 @@
             </div>
         </div>
     </section>
+    <!--TODO: GET THIS WORKING: brain graphics--> T
+    <!--<canvas><div id="body"></div></canvas>-->
+
+    <!--<script>-->
+    <!--$("#body").append("<canvas id='3d' style='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none'>");-->
+    <!--if (Detector.webgl) {-->
+        <!--renderer = new THREE.WebGLRenderer({-->
+            <!--canvas: document.getElementById("3d"),-->
+            <!--antialias: true, // to get smoother output-->
+            <!--preserveDrawingBuffer: true, // to allow screenshot-->
+            <!--alpha: true-->
+        <!--});-->
+        <!--renderer.setClearColor(0xffffff, 0);-->
+        <!--renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);-->
+    <!--} else {-->
+        <!--console.log("ERROR: No WebGLRenderer available");-->
+        <!--renderer = new THREE.CanvasRenderer();-->
+    <!--}-->
+<!--//            exp = experimentsObj;-->
+<!--//            configureExperiments(experimentsObj);-->
+            <!--requestAnimationFrame(animate);-->
+
+    <!--</script>-->
 
 
-    <!-- jQuery -->
-    <script src="static/css/vendor/jquery/jquery.min.js"></script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="static/css/vendor/bootstrap/js/bootstrap.min.js"></script>
