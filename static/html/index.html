@@ -27,6 +27,7 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="static/js/typed.js"></script>
     <![endif]-->
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -37,6 +38,16 @@
   ga('create', 'UA-88801906-2', 'auto');
   ga('send', 'pageview');
 
+</script>
+<script src="static/js/typed.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+		Typed.new(".element", {
+			strings: ["Computer Scientist", "Developer","Researcher","Student"],
+			typeSpeed: 0,
+            showCursor: false
+		});
+	});
 </script>
 
 </head>
@@ -107,7 +118,8 @@
                         <h6 class="skills" style="font-size: xx-large">Sharabesh Ramesh</h6>
                         <h6 class="skills">UC Berkeley Computer Science</h6>
                         <hr class="star-light">
-                        <span class="skills">Researcher - Developer - Student</span>
+                        <!--<span class="skills">Researcher - Developer - Student</span>-->
+                        <span class="element" style="font-size: 2em;"></span>
                     </div>
                 </div>
             </div>
