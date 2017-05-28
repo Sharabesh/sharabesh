@@ -1,8 +1,9 @@
+import os
+#Modules to run webserver
 import tornado
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
-import os
 #Used to send emails
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -10,7 +11,7 @@ from email.mime.text import MIMEText
 
 try:
     password = os.environ["PASSWORD"]
-except:
+except KeyError:
     print("Mail Server Offline. Please load password to continue")
 
 
