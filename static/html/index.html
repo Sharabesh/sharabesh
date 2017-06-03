@@ -97,26 +97,38 @@
         <!-- /.container-fluid -->
     </nav>
 
+    <style>
+        #particles-js {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-repeat: no-repeat;
+        }
+
+    </style>
     <!-- Header -->
     <header>
-        <div id ='particles-js' class="container">
+        <div id="particles-js"></div>
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+
                     <!--<img class="img-responsive" src="static/img/profile.png" alt="">-->
                     <div class="intro-text">
-                    <div class="alert alert-danger"
-                        {% if failure !=1 %}
-                            style="display: none;"
-                            {% end %}>
-                        <strong>Something went wrong!</strong>
-                        <br>
-                        Unfortunately, the mail server is down.
-                        Please contact Sharabesh directly through
-                        sharabesh (at) berkeley.edu
-                    </div>
+                        <div class="alert alert-danger"
+                            {% if failure !=1 %}
+                                style="display: none;"
+                                {% end %}>
+                            <strong>Something went wrong!</strong>
+                            <br>
+                            Unfortunately, the mail server is down.
+                            Please contact Sharabesh directly through
+                            sharabesh (at) berkeley.edu
+                        </div>
                         <h6 class="skills" style="font-size: xx-large">Sharabesh Ramesh</h6>
                         <h6 class="skills">UC Berkeley Computer Science</h6>
                         <hr class="star-light">
+                        <p><br><br><br></p>
                         <!--TypedJS Runner-->
                         <span class="element" style="font-size: 2em;"></span>
                     </div>
