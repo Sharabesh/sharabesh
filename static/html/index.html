@@ -108,17 +108,16 @@
     </style>
     <!-- Header -->
     <header>
-        <div id="particles-js"></div>
+        <div id="particles-js" style="z-index: 0"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-
                     <!--<img class="img-responsive" src="static/img/profile.png" alt="">-->
                     <div class="intro-text">
                         <div class="alert alert-danger"
                             {% if failure !=1 %}
                                 style="display: none;"
-                                {% end %}>
+                            {% end %}>
                             <strong>Something went wrong!</strong>
                             <br>
                             Unfortunately, the mail server is down.
