@@ -44,7 +44,7 @@
     document.addEventListener("DOMContentLoaded", function(){
 		Typed.new(".element", {
 			strings: ["Hello", "Welcome to my site","Take a look around","Feel free to <a style='color:white; text-decoration: underline;' href='/contact'>reach out to me</a> with any questions"],
-			typeSpeed: 0,
+			typeSpeed: 0.5,
             showCursor: false
 		});
 	});
@@ -101,14 +101,14 @@
         #particles-js {
           position: absolute;
           width: 100%;
-          height: 100%;
+          height: 90%;
           background-repeat: no-repeat;
         }
 
     </style>
     <!-- Header -->
     <header>
-        <div id="particles-js" style="z-index: 0"></div>
+        <div id="particles-js" style="z-index: 1000"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -124,10 +124,10 @@
                             Please contact Sharabesh directly through
                             sharabesh (at) berkeley.edu
                         </div>
-                        <h6 class="skills" style="font-size: xx-large">Sharabesh Ramesh</h6>
+                        <h6 class="skills" style="font-size: xx-large; margin-top:-20px;">Sharabesh Ramesh</h6>
                         <h6 class="skills">UC Berkeley Computer Science</h6>
                         <hr class="star-light">
-                        <p><br><br><br></p>
+                        <p><br><br><br><br><br></p>
                         <!--TypedJS Runner-->
                         <span class="element" style="font-size: 2em;"></span>
                     </div>
@@ -143,7 +143,7 @@
     </script>
     <!-- Portfolio Grid Section -->
     <section id="portfolio">
-        <div class="container">
+        <div class="container" style="z-index: 3000">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2>Portfolio</h2>
