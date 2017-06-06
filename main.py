@@ -39,6 +39,8 @@ class ContactHandler(tornado.web.RequestHandler):
         body += "Phone Number: {0}".format(phone_number)
         body += "\n"
         body += "From: {0}".format(fromaddr)
+        body += "\n\n\n"
+        body += "Message: "
         body += "\n"
         body += message
 
@@ -47,7 +49,7 @@ class ContactHandler(tornado.web.RequestHandler):
         try:
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            server.login("sharabesh97@gmail.com", password)
+            server.login("sharabeshwebsite@gmail.com", password)
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()

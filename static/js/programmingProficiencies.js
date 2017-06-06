@@ -22,15 +22,15 @@ var radarOptions = {
 	scaleOverlay : false,
 
 	//Boolean - If we want to override with a hard coded scale
-	scaleOverride : false,
+	scaleOverride : true,
 
 	//** Required if scaleOverride is true **
 	//Number - The number of steps in a hard coded scale
-	scaleSteps : null,
+	scaleSteps : 5,
 	//Number - The value jump in the hard coded scale
-	scaleStepWidth : null,
+	scaleStepWidth : 20,
 	//Number - The centre starting value
-	scaleStartValue : null,
+	scaleStartValue : 0,
 
 	//Boolean - Whether to show lines for each scale point
 	scaleShowLine : true,
@@ -42,7 +42,7 @@ var radarOptions = {
 	scaleLineWidth : 1,
 
 	//Boolean - Whether to show labels on the scale
-	scaleShowLabels : false,
+	scaleShowLabels : true,
 
 	//Interpolated JS string - can access value
 	scaleLabel : "<%=value%>",
@@ -131,7 +131,7 @@ var radarData = {
 		{
 			fillColor : "rgba(151,187,205,0.5)",
 			strokeColor : "rgba(151,187,205,1)",
-			data : [90,85,100,65,80,70,60]
+			data : [90,85,80,60,65,70,60]
 		}
 	]
 };
