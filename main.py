@@ -1,10 +1,10 @@
 import os
-#Modules to run webserver
+# Modules to run webserver
 import tornado
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
-#Used to send emails
+# Used to send emails
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -15,25 +15,33 @@ except KeyError:
     print("Mail Server Offline. Please load password to continue")
 
 
-
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/index.html",failure=0)
+        self.render("static/html/index.html", failure=0)
+
+
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/contact.html",failure=0,message="")
+        self.render("static/html/contact.html", failure=0, message="")
+
+
+class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
+    def write_error(self, status_code, **kwargs):
+        self.set_status(404)
+        self.render("static/html/404.html")
+
 
 class ResponseHandler(tornado.web.RequestHandler):
     def post(self):
         try:
-            name=self.get_body_argument("name")
+            name = self.get_body_argument("name")
         except:
             self.redirect("/contact")
             return
         fromaddr = self.get_body_argument("email")
-        phone_number= self.get_body_argument("phone")
-        message= self.get_body_argument("message")
-        toaddr="sharabesh@berkeley.edu"
+        phone_number = self.get_body_argument("phone")
+        message = self.get_body_argument("message")
+        toaddr = "sharabesh@berkeley.edu"
 
         msg = MIMEMultipart()
         msg['From'] = fromaddr
@@ -50,7 +58,7 @@ class ResponseHandler(tornado.web.RequestHandler):
         body += "\n"
         body += message
 
-        msg.attach(MIMEText(body,'plain'))
+        msg.attach(MIMEText(body, 'plain'))
 
         try:
             server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -60,15 +68,15 @@ class ResponseHandler(tornado.web.RequestHandler):
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
             server.quit()
-            self.render("static/html/contact.html",failure=0,message="Success!\nYou will recieve a response shortly")
+            self.render("static/html/contact.html", failure=0, message="Success!\nYou will recieve a response shortly")
         except:
-            self.render("static/html/contact.html",failure=1,message="")
-
+            self.render("static/html/contact.html", failure=1, message="")
 
 
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/education.html")
+
 
 class KernalHandler(tornado.web.RequestHandler):
     def get(self):
@@ -77,24 +85,24 @@ class KernalHandler(tornado.web.RequestHandler):
 
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
-    'default_handler_class': MainHandler,
-	'default_handler_args': dict(status_code=404),
-	'xheaders' : True,
-	'protocol' : 'https'
+    "compress_response":True,
+    'default_handler_class': NotFoundHandler,
+    'default_handler_args': dict(status_code=404),
+    'xheaders': True,
+    'protocol': 'https'
 }
 
 
 def make_app():
     return tornado.web.Application([
-        (r"/static/(.*)",tornado.web.StaticFileHandler,
+        (r"/static/(.*)", tornado.web.StaticFileHandler,
          dict(path=settings["static_path"])),
         (r"/", MainHandler),
-        (r"/contact",ContactHandler),
-        (r"/education",EducationHandler),
-        (r"/coding",KernalHandler),
-        (r"/response",ResponseHandler),
-    ], debug=True, compress_response=True)
-
+        (r"/contact", ContactHandler),
+        (r"/education", EducationHandler),
+        (r"/coding", KernalHandler),
+        (r"/response", ResponseHandler),
+    ], debug=True, **settings)
 
 
 if __name__ == "__main__":
