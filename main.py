@@ -46,16 +46,16 @@ class ContactHandler(tornado.web.RequestHandler):
 
         msg.attach(MIMEText(body,'plain'))
 
-        try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
-            server.login("sharabeshwebsite@gmail.com", password)
-            text = msg.as_string()
-            server.sendmail(fromaddr, toaddr, text)
-            server.quit()
-            self.redirect("/")
-        except:
-            self.render("static/html/contact.html",failure=1)
+        # try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("sharabeshwebsite@gmail.com", password)
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
+        server.quit()
+        self.redirect("/")
+        # except:
+        #     self.render("static/html/contact.html",failure=1)
 
 
 class EducationHandler(tornado.web.RequestHandler):
