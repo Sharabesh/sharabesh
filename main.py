@@ -68,8 +68,11 @@ class KernalHandler(tornado.web.RequestHandler):
 
 
 settings = {
-    "static_path": os.path.join(os.path.dirname(__file__), "static")
-
+    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    'default_handler_class': MainHandler,
+	'default_handler_args': dict(status_code=404),
+	'xheaders' : True,
+	'protocol' : 'https'
 }
 
 
