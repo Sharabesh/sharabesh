@@ -21,7 +21,7 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("static/html/index.html",failure=0)
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/contact.html")
+        self.render("static/html/contact.html",failure=0)
     def post(self):
         name=self.get_body_argument("name")
         fromaddr = self.get_body_argument("email")
@@ -55,7 +55,7 @@ class ContactHandler(tornado.web.RequestHandler):
             server.quit()
             self.redirect("/")
         except:
-            self.render("static/html/index.html",failure=1)
+            self.render("static/html/contact.html",failure=1)
 
 
 class EducationHandler(tornado.web.RequestHandler):
