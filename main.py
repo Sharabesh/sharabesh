@@ -50,6 +50,7 @@ class ContactHandler(tornado.web.RequestHandler):
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
         server.starttls()
+        print(password)
         server.login("sharabeshwebsite@gmail.com", password)
         print("LOGGED IN:")
         text = msg.as_string()
