@@ -21,9 +21,15 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("static/html/index.html",failure=0)
 class ContactHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/contact.html",failure=0)
+        self.render("static/html/contact.html",failure=0,message="")
+
+class ResponseHandler(tornado.web.RequestHandler):
     def post(self):
-        name=self.get_body_argument("name")
+        try:
+            name=self.get_body_argument("name")
+        except:
+            self.redirect("/contact")
+            return
         fromaddr = self.get_body_argument("email")
         phone_number= self.get_body_argument("phone")
         message= self.get_body_argument("message")
@@ -46,19 +52,18 @@ class ContactHandler(tornado.web.RequestHandler):
 
         msg.attach(MIMEText(body,'plain'))
 
-        # try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        print("PASSWORD IS: password")
-        server.login("sharabeshwebsite@gmail.com", password)
-        print("LOGGED IN:")
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
-        server.quit()
-        self.redirect("/")
-        # except:
-        #     self.render("static/html/contact.html",failure=1)
+        try:
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.login("sharabeshwebsite@gmail.com", password)
+            text = msg.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+            server.quit()
+            self.render("static/html/contact.html",failure=0,message="Success!\nYou will recieve a response shortly")
+        except:
+            self.render("static/html/contact.html",failure=1,message="")
+
 
 
 class EducationHandler(tornado.web.RequestHandler):
@@ -86,7 +91,8 @@ def make_app():
         (r"/", MainHandler),
         (r"/contact",ContactHandler),
         (r"/education",EducationHandler),
-        (r"/coding",KernalHandler)
+        (r"/coding",KernalHandler),
+        (r"/response",ResponseHandler),
     ], debug=True, compress_response=True)
 
 

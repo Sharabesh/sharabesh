@@ -125,8 +125,16 @@
                     </div>
 
             </div>
+            <div class="alert alert-success"
+                {% if not message %}
+                    style="display:none"
+                 {% end %}>
+                <div style="text-align:center">{{ message }}</div>
+            </div>
+
+            </div>
                 <div class="col-lg-8 col-lg-offset-2">
-                    <form name="sentMessage" id="contactForm" method="post" action="/contact">
+                    <form name="sentMessage" id="contactForm" method="post" action="/response">
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Name</label>
