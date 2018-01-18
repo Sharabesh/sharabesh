@@ -113,6 +113,7 @@ if __name__ == "__main__":
         server.ehlo()
         server.starttls()
         server.login("sharabeshwebsite@gmail.com", password)
+        print("I was able to successfully login to email from the server!")
     except:
         server = None
     app = make_app()
