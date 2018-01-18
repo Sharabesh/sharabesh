@@ -10,7 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-
+server = None # Initializing global email server object to prevent regional login requests
 try:
     password = os.environ["PASSWORD"]
 except KeyError:
@@ -63,13 +63,13 @@ class ResponseHandler(tornado.web.RequestHandler):
         msg.attach(MIMEText(body, 'plain'))
 
         try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.ehlo()
-            server.starttls()
-            server.login("sharabeshwebsite@gmail.com", password)
+            if not server:
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.ehlo()
+                server.starttls()
+                server.login("sharabeshwebsite@gmail.com", password)
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
-            server.quit()
             self.render("static/html/contact.html", failure=0, message="Success!\nYou will recieve a response shortly")
         except:
             self.render("static/html/contact.html", failure=1, message="")
@@ -108,6 +108,13 @@ def make_app():
 
 
 if __name__ == "__main__":
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login("sharabeshwebsite@gmail.com", password)
+    except:
+        server = None
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     port_num = 5000
