@@ -10,7 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-server = None # Initializing global email server object to prevent regional login requests
+server = None  # Initializing global email server object to prevent regional login requests
 try:
     password = os.environ["PASSWORD"]
 except KeyError:
@@ -39,7 +39,7 @@ class ResponseHandler(tornado.web.RequestHandler):
         global server
         try:
             name = self.get_body_argument("name")
-        except:
+        except BaseException:
             self.redirect("/contact")
             return
         fromaddr = self.get_body_argument("email")
@@ -72,8 +72,11 @@ class ResponseHandler(tornado.web.RequestHandler):
                 server.login("sharabeshwebsite@gmail.com", password)
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
-            self.render("static/html/contact.html", failure=0, message="Success!\nYou will recieve a response shortly")
-        except:
+            self.render(
+                "static/html/contact.html",
+                failure=0,
+                message="Success!\nYou will recieve a response shortly")
+        except BaseException:
             self.render("static/html/contact.html", failure=1, message="")
 
 
@@ -89,7 +92,7 @@ class KernalHandler(tornado.web.RequestHandler):
 
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
-    "compress_response":True,
+    "compress_response": True,
     'default_handler_class': NotFoundHandler,
     'default_handler_args': dict(status_code=404),
     'xheaders': True,
@@ -116,7 +119,7 @@ if __name__ == "__main__":
         server.starttls()
         server.login("sharabeshwebsite@gmail.com", password)
         print("I was able to successfully login to email from the server!")
-    except:
+    except BaseException:
         server = None
         print("I failed :(")
     app = make_app()
