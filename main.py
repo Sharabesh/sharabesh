@@ -34,7 +34,9 @@ class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
 
 
 class ResponseHandler(tornado.web.RequestHandler):
+
     def post(self):
+        global server
         try:
             name = self.get_body_argument("name")
         except:
@@ -116,6 +118,7 @@ if __name__ == "__main__":
         print("I was able to successfully login to email from the server!")
     except:
         server = None
+        print("I failed :(")
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     port_num = 5000
