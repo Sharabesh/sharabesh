@@ -10,6 +10,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
+DESTINATION_EMAIL = os.environ["TOSITE"]
+SOURCE_EMAIL = os.environ["FROMSITE"]
+
 server = None  # Initializing global email server object to prevent regional login requests
 try:
     password = os.environ["PASSWORD"]
@@ -32,6 +35,13 @@ class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
         self.set_status(404)
         self.render("static/html/404.html")
 
+# class StaticNotFoundHandler(tornado.web.StaticFileHandler):
+#     def write_error(self, status_code, *args, **kwargs):
+#         # custom 404 page
+#         print("I AM HERE")
+#         print("STATUS CODE IS ",status_code)
+#         self.render('static/html/404.html')
+
 
 class ResponseHandler(tornado.web.RequestHandler):
 
@@ -45,7 +55,7 @@ class ResponseHandler(tornado.web.RequestHandler):
         fromaddr = self.get_body_argument("email")
         phone_number = self.get_body_argument("phone")
         message = self.get_body_argument("message")
-        toaddr = "sharabesh@berkeley.edu"
+        toaddr = DESTINATION_EMAIL
 
         msg = MIMEMultipart()
         msg['From'] = fromaddr
@@ -69,7 +79,7 @@ class ResponseHandler(tornado.web.RequestHandler):
                 server = smtplib.SMTP('smtp.gmail.com', 587)
                 server.ehlo()
                 server.starttls()
-                server.login("sharabeshwebsite@gmail.com", password)
+                server.login(SOURCE_EMAIL, password)
             text = msg.as_string()
             server.sendmail(fromaddr, toaddr, text)
             self.render(
@@ -117,7 +127,7 @@ if __name__ == "__main__":
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
         server.starttls()
-        server.login("sharabeshwebsite@gmail.com", password)
+        server.login(SOURCE_EMAIL, password)
         print("I was able to successfully login to email from the server!")
     except BaseException:
         server = None
