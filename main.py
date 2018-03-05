@@ -131,7 +131,7 @@ if __name__ == "__main__":
         print("I was able to successfully login to email from the server!")
     except BaseException:
         server = None
-        print("I failed :(")
+        print("I was unable to login to the server")
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     port_num = 5000
