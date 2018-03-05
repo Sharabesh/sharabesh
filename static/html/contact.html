@@ -152,8 +152,8 @@
                         </div>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label>Phone Number</label>
-                                <input type="tel" name="phone" class="form-control" placeholder="Phone Number" id="phone" data-validation-required-message="Please enter your phone number.">
+                                <label for="phone">Phone Number (Optional)</label>
+                                <input type="tel" name="phone" pattern="^\d{3}-\d{3}-\d{4}$" class="form-control" placeholder="Phone Number" id="phone" title="Please enter your phone number in the form 123-456-7899." data-validation-required-message="Please enter your phone number in the form 123-456-7899.">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
