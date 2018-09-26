@@ -44,7 +44,6 @@ class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
 
 
 class ResponseHandler(tornado.web.RequestHandler):
-
     def post(self):
         global server
         try:
@@ -111,6 +110,7 @@ settings = {
 
 
 def make_app():
+    debug = not bool(os.environ.get("PRODUCTION"))
     return tornado.web.Application([
         (r"/static/(.*)", tornado.web.StaticFileHandler,
          dict(path=settings["static_path"])),
@@ -119,7 +119,7 @@ def make_app():
         (r"/education", EducationHandler),
         (r"/coding", KernalHandler),
         (r"/response", ResponseHandler),
-    ], debug=True, **settings)
+    ], debug=debug, **settings)
 
 
 if __name__ == "__main__":
@@ -139,3 +139,6 @@ if __name__ == "__main__":
     http_server.listen(port)
     print("Running my website at 127.0.0.1:" + str(port_num) + "...")
     tornado.ioloop.IOLoop.current().start()
+
+
+
