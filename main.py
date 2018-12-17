@@ -99,6 +99,12 @@ class KernalHandler(tornado.web.RequestHandler):
         self.render("static/html/Kernels.html")
 
 
+
+class TestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("static/html/index2.html")
+
+
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
     "compress_response": True,
@@ -119,19 +125,20 @@ def make_app():
         (r"/education", EducationHandler),
         (r"/coding", KernalHandler),
         (r"/response", ResponseHandler),
+        (r"/test", TestHandler),
     ], debug=debug, **settings)
 
 
 if __name__ == "__main__":
-    try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.login(SOURCE_EMAIL, password)
-        print("I was able to successfully login to email from the server!")
-    except BaseException:
-        server = None
-        print("I was unable to login to the server")
+    # try:
+    #     server = smtplib.SMTP('smtp.gmail.com', 587)
+    #     server.ehlo()
+    #     server.starttls()
+    #     server.login(SOURCE_EMAIL, password)
+    #     print("I was able to successfully login to email from the server!")
+    # except BaseException:
+    #     server = None
+    #     print("I was unable to login to the server")
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     port_num = 5000
