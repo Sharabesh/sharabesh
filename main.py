@@ -4,6 +4,7 @@ import tornado
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
+from models import *
 # Used to send emails
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -23,6 +24,27 @@ except KeyError:
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/index.html", failure=0)
+
+
+# Test to store cookie values in my DB
+class CookieHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', ' PUT, DELETE, OPTIONS')
+
+    def options(self):
+        # no body
+        self.set_status(204)
+        self.finish()
+
+
+    def post(self, *args, **kwargs):
+        retrieved_cookie = self.get_argument("cookie")
+        q = Cookies.insert(
+            cookie_value = retrieved_cookie
+        )
+        q.execute()
 
 
 class ContactHandler(tornado.web.RequestHandler):
@@ -99,12 +121,6 @@ class KernalHandler(tornado.web.RequestHandler):
         self.render("static/html/Kernels.html")
 
 
-
-class TestHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.render("static/html/index2.html")
-
-
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
     "compress_response": True,
@@ -125,7 +141,7 @@ def make_app():
         (r"/education", EducationHandler),
         (r"/coding", KernalHandler),
         (r"/response", ResponseHandler),
-        (r"/test", TestHandler),
+        (r"/cookie", CookieHandler),
     ], debug=debug, **settings)
 
 
