@@ -41,6 +41,7 @@ class CookieHandler(tornado.web.RequestHandler):
 
     def post(self, *args, **kwargs):
         retrieved_cookie = self.get_argument("cookie")
+        print(retrieved_cookie)
         q = Cookies.insert(
             cookie_value = retrieved_cookie
         )
