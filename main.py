@@ -5,21 +5,8 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 from models import *
-# Used to send emails
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-
-DESTINATION_EMAIL = os.environ["TOSITE"]
-SOURCE_EMAIL = os.environ["FROMSITE"]
-
-server = None  # Initializing global email server object to prevent regional login requests
-try:
-    password = os.environ["PASSWORD"]
-except KeyError:
-    print("Mail Server Offline. Please load password to continue")
-
+from mailer import *
+import json
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -67,49 +54,50 @@ class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
 
 
 class ResponseHandler(tornado.web.RequestHandler):
-    def post(self):
-        global server
-        try:
-            name = self.get_body_argument("name")
-        except BaseException:
-            self.redirect("/contact")
-            return
-        fromaddr = self.get_body_argument("email")
-        phone_number = self.get_body_argument("phone")
+    async def post(self):
+        name = self.get_body_argument("name")
+        from_addr = self.get_body_argument("email")
+        phone = self.get_body_argument("phone")
         message = self.get_body_argument("message")
-        toaddr = DESTINATION_EMAIL
+        captcha_repsonse = self.get_body_argument("g-recaptcha-response")
 
-        msg = MIMEMultipart()
-        msg['From'] = fromaddr
-        msg['To'] = toaddr
-        msg['Subject'] = "Contact from my website"
+        resp, msg = await issue_message(name, from_addr, phone, message, captcha_repsonse)
+        self.write(json.dumps({"success": int(resp), "message": msg}))
 
-        body = "Name: {0}".format(name)
-        body += "\n"
-        body += "Phone Number: {0}".format(phone_number)
-        body += "\n"
-        body += "From: {0}".format(fromaddr)
-        body += "\n\n\n"
-        body += "Message: "
-        body += "\n"
-        body += message
 
-        msg.attach(MIMEText(body, 'plain'))
 
-        try:
-            if not server:
-                server = smtplib.SMTP('smtp.gmail.com', 587)
-                server.ehlo()
-                server.starttls()
-                server.login(SOURCE_EMAIL, password)
-            text = msg.as_string()
-            server.sendmail(fromaddr, toaddr, text)
-            self.render(
-                "static/html/contact.html",
-                failure=0,
-                message="Success!\nYou will recieve a response shortly")
-        except BaseException:
-            self.render("static/html/contact.html", failure=1, message="")
+        # global server
+        # try:
+        #     name = self.get_body_argument("name")
+        # except BaseException:
+        #     self.redirect("/contact")
+        #     return
+        # fromaddr = self.get_body_argument("email")
+        # phone_number = self.get_body_argument("phone")
+        # message = self.get_body_argument("message")
+        # captcha_repsonse = self.get_body_argument("g-recaptcha-response")
+        #
+        #
+        # if captcha_status['success'] != True:
+        #     self.render("static/html/contact.html", failure=1, message="\nThis message has been flagged as coming from a bot account please try through other means!")
+        #
+        # # req = HTTPRequest(
+        # #
+        # # )
+        # # try:
+        # #     response = await http_client.fetch("")
+        #
+        #
+        #
+        #
+        #
+        #
+        #     self.render(
+        #         "static/html/contact.html",
+        #         failure=0,
+        #         message="Success!\nYou will recieve a response shortly")
+        # except BaseException:
+        #     self.render("static/html/contact.html", failure=1, message="")
 
 
 class EducationHandler(tornado.web.RequestHandler):
@@ -147,15 +135,6 @@ def make_app():
 
 
 if __name__ == "__main__":
-    # try:
-    #     server = smtplib.SMTP('smtp.gmail.com', 587)
-    #     server.ehlo()
-    #     server.starttls()
-    #     server.login(SOURCE_EMAIL, password)
-    #     print("I was able to successfully login to email from the server!")
-    # except BaseException:
-    #     server = None
-    #     print("I was unable to login to the server")
     app = make_app()
     http_server = tornado.httpserver.HTTPServer(app)
     port_num = 5000

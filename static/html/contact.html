@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <link rel="icon" href="static/img/profile.png">
     <title>Contact Me</title>
         <meta charset="utf-8">
@@ -112,30 +114,21 @@
                 </div>
             </div>
 
+            <!--Failure or Success Notifications-->
             <div class="row">
-            <div class="alert alert-danger container"
-                {% if failure !=1 %}
-                    style="display: none;"
-                {% end %}>
+            <div id="failureNotice" class="alert alert-danger container" style="display: none;">
                     <div style="text-align: center"><strong>Something went wrong!</strong></div>
                     <br>
-                    <div style="text-align: center">
-                        Unfortunately, the mail server is down.
-                        Please contact Sharabesh directly through
-                        sharabesh (at) berkeley.edu
-                    </div>
-
+                    <div style="text-align: center"><p id="failureMessage"></p></div>
             </div>
-            <div class="alert alert-success"
-                {% if not message %}
-                    style="display:none"
-                 {% end %}>
-                <div style="text-align:center">{{ message }}</div>
+            <div id="successNotice" class="alert alert-success" style="display:none">
+                <div style="text-align:center"><p id="successMessage"></p></div>
             </div>
+            <!--End Failure/Success Notifications-->
 
             </div>
                 <div class="col-lg-8 col-lg-offset-2">
-                    <form name="sentMessage" id="contactForm" method="post" action="/response">
+                    <form name="sentMessage" id="contactForm">
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Name</label>
@@ -164,11 +157,21 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
+                        <p id="sitekey" style="display:none">6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI</p>
                         <br>
                         <div id="success"></div>
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                <button type="submit" class="btn btn-success btn-lg">Send</button>
+                                <button
+                                    id="submitForm"
+                                    type="submit"
+                                    class="g-recaptcha btn btn-success btn-lg"
+                                    data-sitekey="6Lexo4oUAAAAACOp9OUdGgToLqOUaooaA7RUQhV6"
+                                    data-callback="submitContactForm"
+                                    >
+                                    Send
+                                </button>
+                                <!--<button id="submitForm" type="submit" class="btn btn-success btn-lg">Send</button>-->
                             </div>
                         </div>
                     </form>
@@ -190,6 +193,46 @@
             }
         </style>
 	</div>
+
+    <script>
+    function clearAllFields() {
+        fields = ['#name','#email','#phone','#message'];
+        fields.forEach(function(each) {
+           $(each).val("");
+        });
+    }
+
+    function submitContactForm() {
+        data = {
+          name: $("#name").val(),
+          email: $("#email").val(),
+          phone: $("#phone").val(),
+          message: $("#message").val(),
+          "g-recaptcha-response": grecaptcha.getResponse()
+        };
+        $.ajax({
+            type: 'POST',
+            url: "/response",
+            data: data
+
+        }).then(function(response) {
+            response = JSON.parse(response);
+            console.log(response);
+           if (response.success === 1) {
+               $("#successNotice").css("display", "block");
+               $("#successMessage").text(response.message);
+               clearAllFields();
+           } else {
+               $("#failureNotice").css("display", "block");
+               $("#failureMessage").text(response.message);
+           }
+
+        });
+        // document.getElementById("contactForm").submit();
+    }
+    </script>
+
+
 	<!-- //map -->
     <!-- jQuery -->
     <script src="static/css/vendor/jquery/jquery.min.js"></script>
