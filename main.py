@@ -65,41 +65,6 @@ class ResponseHandler(tornado.web.RequestHandler):
         self.write(json.dumps({"success": int(resp), "message": msg}))
 
 
-
-        # global server
-        # try:
-        #     name = self.get_body_argument("name")
-        # except BaseException:
-        #     self.redirect("/contact")
-        #     return
-        # fromaddr = self.get_body_argument("email")
-        # phone_number = self.get_body_argument("phone")
-        # message = self.get_body_argument("message")
-        # captcha_repsonse = self.get_body_argument("g-recaptcha-response")
-        #
-        #
-        # if captcha_status['success'] != True:
-        #     self.render("static/html/contact.html", failure=1, message="\nThis message has been flagged as coming from a bot account please try through other means!")
-        #
-        # # req = HTTPRequest(
-        # #
-        # # )
-        # # try:
-        # #     response = await http_client.fetch("")
-        #
-        #
-        #
-        #
-        #
-        #
-        #     self.render(
-        #         "static/html/contact.html",
-        #         failure=0,
-        #         message="Success!\nYou will recieve a response shortly")
-        # except BaseException:
-        #     self.render("static/html/contact.html", failure=1, message="")
-
-
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("static/html/education.html")
