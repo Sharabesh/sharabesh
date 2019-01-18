@@ -117,8 +117,8 @@
             <!--Failure or Success Notifications-->
             <div class="row">
             <div id="failureNotice" class="alert alert-danger container" style="display: none;">
-                    <div style="text-align: center"><strong>Something went wrong!</strong></div>
-                    <br>
+                    <!--<div style="text-align: center"><strong>Something went wrong!</strong></div>-->
+                    <!--<br>-->
                     <div style="text-align: center"><p id="failureMessage"></p></div>
             </div>
             <div id="successNotice" class="alert alert-success" style="display:none">
@@ -168,7 +168,10 @@
                                     class="g-recaptcha btn btn-success btn-lg"
                                     data-sitekey="6Lexo4oUAAAAACOp9OUdGgToLqOUaooaA7RUQhV6"
                                     data-callback="submitContactForm"
+                                    onclick="submitContactForm()"
                                     >
+                                    <!-- FAKE SITEKEY:    data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"-->
+                                    <!--REAL SITEKEY:     data-sitekey="6Lexo4oUAAAAACOp9OUdGgToLqOUaooaA7RUQhV6"-->
                                     Send
                                 </button>
                                 <!--<button id="submitForm" type="submit" class="btn btn-success btn-lg">Send</button>-->
@@ -180,13 +183,16 @@
         </div>
     </section>
 
+    <!-- jQuery -->
+    <script src="/static/css/vendor/jquery/jquery.min.js"></script>
+
 	<div class="map-grid">
 		<iframe
 		  frameborder="0" style="border:0"
 		  src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC7yf2Z1mebDybpIbTb5bYzaU5G1XDnotc&location=37.872444, -122.257962&heading=180&pitch=30&fov=90"
 		  allowfullscreen>
 		</iframe>
-        <style scoped>
+        <style>
             iframe {
                 width: 100%;
                 height:500px;
@@ -201,8 +207,38 @@
            $(each).val("");
         });
     }
+    function validate_inputs(data) {
+        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const phoneFormat = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        if (!mailformat.test(data.email)) {
+            return {
+                valid: false,
+                msg: "Please enter a valid email address"
+            };
+        }
+        if (data.phone.length > 0 && !phoneFormat.test(data.phone)) {
+            return {
+                valid: false,
+                msg: "The phone number is optional but must be in standard format - (xxx)-xxx-xxxx for US numbers"
+            };
+        }
+        if (!data.name || !data.email || !data.message) {
+            return {
+                valid: false,
+                msg: "Name, email, and message must all be provided"
+            };
+        }
+        return {
+            valid: true
+        };
+
+
+
+    }
 
     function submitContactForm() {
+        $("#successNotice").css("display", "none");
+        $("#failureNotice").css("display", "none");
         data = {
           name: $("#name").val(),
           email: $("#email").val(),
@@ -210,6 +246,15 @@
           message: $("#message").val(),
           "g-recaptcha-response": grecaptcha.getResponse()
         };
+        if (!data['g-recaptcha-response']) {
+            return;
+        }
+        const validity = validate_inputs(data);
+        if (!validity.valid) {
+            $("#failureNotice").css("display", "block");
+            $("#failureMessage").text(validity.msg);
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: "/response",
@@ -228,14 +273,12 @@
            }
 
         });
-        // document.getElementById("contactForm").submit();
     }
     </script>
 
 
 	<!-- //map -->
-    <!-- jQuery -->
-    <script src="static/css/vendor/jquery/jquery.min.js"></script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="static/css/vendor/bootstrap/js/bootstrap.min.js"></script>
