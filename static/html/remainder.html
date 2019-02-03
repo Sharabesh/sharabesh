@@ -104,12 +104,13 @@
 <!--/Navigation-->
 
 
+
 <!-- Contact Section -->
     <section id="contact">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Contact Me</h2>
+                    <h2>Enter your Input</h2>
                     <hr class="star-primary">
                 </div>
             </div>
@@ -128,32 +129,11 @@
 
             </div>
                 <div class="col-lg-8 col-lg-offset-2">
-                    <form name="sentMessage" id="contactForm">
+                    <!--<form name="sentMessage" id="contactForm">-->
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Name" id="name" title="Please enter your name" required data-validation-required-message="Please enter your name.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="row control-group">
-                            <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label>Email Address</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email Address" id="email" title="Please enter your email" required data-validation-required-message="Please enter your email address.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="row control-group">
-                            <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label for="phone">Phone Number (Optional)</label>
-                                <input type="tel" name="phone" pattern="^\d{3}-\d{3}-\d{4}$" class="form-control" placeholder="Phone Number" id="phone" title="Please enter your phone number in the form 123-456-7899." data-validation-required-message="Please enter your phone number in the form 123-456-7899.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="row control-group">
-                            <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label>Message</label>
-                                <textarea rows="5" name="message" class="form-control" placeholder="Message" title="Please add a messaage" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                <label>Command</label>
+                                <input type="text" name="name" class="form-control" placeholder="Command" id="name" title="Please enter your name" required data-validation-required-message="Please enter your name.">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -164,19 +144,14 @@
                                 <button
                                     id="submitForm"
                                     type="submit"
-                                    class="g-recaptcha btn btn-success btn-lg"
-                                    data-sitekey="6Lexo4oUAAAAACOp9OUdGgToLqOUaooaA7RUQhV6"
-                                    data-callback="submitContactForm"
-                                    onclick="submitContactForm()"
+                                    class="btn btn-success btn-lg"
                                     >
-                                    <!-- FAKE SITEKEY:    data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"-->
-                                    <!--REAL SITEKEY:     data-sitekey="6Lexo4oUAAAAACOp9OUdGgToLqOUaooaA7RUQhV6"-->
                                     Send
                                 </button>
                                 <!--<button id="submitForm" type="submit" class="btn btn-success btn-lg">Send</button>-->
                             </div>
                         </div>
-                    </form>
+                    <!--</form>-->
                 </div>
             </div>
         </div>
@@ -185,78 +160,17 @@
     <!-- jQuery -->
     <script src="/static/css/vendor/jquery/jquery.min.js"></script>
 
-	<div class="map-grid">
-		<iframe
-		  frameborder="0" style="border:0"
-		  src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyC7yf2Z1mebDybpIbTb5bYzaU5G1XDnotc&location=37.872444, -122.257962&heading=180&pitch=30&fov=90"
-		  allowfullscreen>
-		</iframe>
-        <style>
-            iframe {
-                width: 100%;
-                height:500px;
-            }
-        </style>
-	</div>
+<script>
+    $("#submitForm").click(submitForm);
 
-    <script>
-    function clearAllFields() {
-        fields = ['#name','#email','#phone','#message'];
-        fields.forEach(function(each) {
-           $(each).val("");
-        });
-    }
-    function validate_inputs(data) {
-        const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        const phoneFormat = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-        if (!mailformat.test(data.email)) {
-            return {
-                valid: false,
-                msg: "Please enter a valid email address"
-            };
-        }
-        if (data.phone.length > 0 && !phoneFormat.test(data.phone)) {
-            return {
-                valid: false,
-                msg: "The phone number is optional but must be in standard format - (xxx)-xxx-xxxx for US numbers"
-            };
-        }
-        if (!data.name || !data.email || !data.message) {
-            return {
-                valid: false,
-                msg: "Name, email, and message must all be provided"
-            };
-        }
-        return {
-            valid: true
+    function submitForm() {
+        const data = {
+            command: $("#name").val()
         };
 
-
-
-    }
-
-    function submitContactForm() {
-        $("#successNotice").css("display", "none");
-        $("#failureNotice").css("display", "none");
-        data = {
-          name: $("#name").val(),
-          email: $("#email").val(),
-          phone: $("#phone").val(),
-          message: $("#message").val(),
-          "g-recaptcha-response": grecaptcha.getResponse()
-        };
-        if (!data['g-recaptcha-response']) {
-            return;
-        }
-        const validity = validate_inputs(data);
-        if (!validity.valid) {
-            $("#failureNotice").css("display", "block");
-            $("#failureMessage").text(validity.msg);
-            return;
-        }
         $.ajax({
             type: 'POST',
-            url: "/response",
+            url: '/messenger',
             data: data
 
         }).then(function(response) {
@@ -265,15 +179,19 @@
            if (response.success === 1) {
                $("#successNotice").css("display", "block");
                $("#successMessage").text(response.message);
-               clearAllFields();
+               $("#name").val("");
+               $("#failureNotice").css("display", "none");
            } else {
                $("#failureNotice").css("display", "block");
                $("#failureMessage").text(response.message);
+               $("#successNotice").css("display", "none");
            }
 
         });
     }
     </script>
+
+
 
 
 	<!-- //map -->

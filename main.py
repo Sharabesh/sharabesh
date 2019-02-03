@@ -7,6 +7,7 @@ import tornado.web
 from models import *
 from mailer import *
 import json
+from remainder import *
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -96,6 +97,9 @@ def make_app():
         (r"/coding", KernalHandler),
         (r"/response", ResponseHandler),
         (r"/cookie", CookieHandler),
+        (r"/remainder", RemainderHandler),
+        (r"/socket", WebSocketHandler),
+        (r"/messenger", SocketHandler)
     ], debug=debug, **settings)
 
 
