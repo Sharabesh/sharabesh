@@ -125,11 +125,13 @@ const portfolio_data = [
         `
   },
   {
-    "title": "iOS Development",
-      "header":"Development of a iOS Calculator Application",
+    "title": "Predictive Safety",
+      "header":"A Machine Learning backed safety analysis program for student safety",
       "description":`
-        Early experiments with iOS through the creation
-        of a Calculator application
+        Backed by a grant from the skydeck fund, I worked to develop a
+        react-native application that used predictive machine learning techniques 
+        to plot out and group individuals along optimal routes to mitigate their
+        exposure to crime. 
     `
   }
 ];
