@@ -68,7 +68,7 @@ class ResponseHandler(tornado.web.RequestHandler):
 
 class EducationHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("static/html/education.html")
+        self.render("static/html/new_education.html")
 
 
 class KernalHandler(tornado.web.RequestHandler):
