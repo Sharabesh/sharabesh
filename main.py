@@ -71,9 +71,9 @@ class EducationHandler(tornado.web.RequestHandler):
         self.render("static/html/new_education.html")
 
 
-class KernalHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.render("static/html/Kernels.html")
+# class KernalHandler(tornado.web.RequestHandler):
+#     def get(self):
+#         self.render("static/html/Kernels.html")
 
 
 settings = {
@@ -94,7 +94,6 @@ def make_app():
         (r"/", MainHandler),
         (r"/contact", ContactHandler),
         (r"/education", EducationHandler),
-        (r"/coding", KernalHandler),
         (r"/response", ResponseHandler),
         (r"/cookie", CookieHandler),
         (r"/remainder", RemainderHandler),
