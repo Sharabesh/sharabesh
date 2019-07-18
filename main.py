@@ -4,6 +4,7 @@ import tornado
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
+import tornado.escape
 from models import *
 from mailer import *
 from remainder import *
@@ -54,11 +55,11 @@ class StaticNotFoundHandler(tornado.web.StaticFileHandler):
 
 class ResponseHandler(tornado.web.RequestHandler):
     async def post(self):
-        name = self.get_body_argument("name")
-        from_addr = self.get_body_argument("email")
-        phone = self.get_body_argument("phone")
-        message = self.get_body_argument("message")
-        captcha_repsonse = self.get_body_argument("g-recaptcha-response")
+        name = tornado.escape.xhtml_escape(self.get_body_argument("name"))
+        from_addr = tornado.escape.xhtml_escape(self.get_body_argument("email"))
+        phone = tornado.escape.xhtml_escape(self.get_body_argument("phone"))
+        message = tornado.escape.xhtml_escape(self.get_body_argument("message"))
+        captcha_repsonse = tornado.escape.xhtml_escape(self.get_body_argument("g-recaptcha-response"))
 
         resp, msg = await issue_message(name, from_addr, phone, message, captcha_repsonse)
         self.write(json.dumps({"success": int(resp), "message": msg}))
@@ -76,7 +77,7 @@ settings = {
     'default_handler_class': NotFoundHandler,
     'default_handler_args': dict(status_code=404),
     'xheaders': True,
-    'protocol': 'https'
+    'protocol': 'https',
 }
 
 
