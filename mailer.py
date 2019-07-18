@@ -45,7 +45,7 @@ async def validate_captcha(recieved_captcha):
 
 
 
-def compose_email(name, from_addr, message, phone_number):
+def compose_email(name: str, from_addr: str, message: str, phone_number: str):
     toaddr = DESTINATION_EMAIL
     msg = MIMEMultipart()
     msg['From'] = from_addr
@@ -66,7 +66,7 @@ def compose_email(name, from_addr, message, phone_number):
     return msg
 
 
-async def issue_message(name, from_addr, phone_number, message, captcha):
+async def issue_message(name, from_addr, phone_number, message, captcha) -> (bool, str):
     global server
     captcha_validation = await validate_captcha(captcha)
     if not captcha_validation:

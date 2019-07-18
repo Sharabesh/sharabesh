@@ -35,26 +35,45 @@
 
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function(i, s, o, g, r, a, m) {
+  i.GoogleAnalyticsObject = r;
+  (i[r] =
+      i[r] ||
+    function() {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+  })(
+  window,
+  document,
+  'script',
+  'https://www.google-analytics.com/analytics.js',
+  'ga'
+);
 
   ga('create', 'UA-88801906-3', 'auto');
   ga('send', 'pageview');
-
 </script>
 
 
 <script src="/static/js/typed.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function(){
-		Typed.new(".element", {
-			strings: [" Hello", " Welcome to my site"," Take a look around"," Feel free to <a style='color:white; text-decoration: underline;' href='/contact'>reach out to me</a> with any questions"],
-			typeSpeed: 0.5,
-            showCursor: false
-		});
-	});
+    document.addEventListener('DOMContentLoaded', function() {
+  Typed.new('.element', {
+    strings: [
+      ' Hello',
+          ' Welcome to my site',
+          ' Take a look around',
+      " Feel free to <a style='color:white; text-decoration: underline;' href='/contact'>reach out to me</a> with any questions"
+    ],
+    typeSpeed: 0.5,
+        showCursor: false
+  });
+});
 </script>
 
 </head>
@@ -135,8 +154,8 @@
     </header>
     <script src="static/js/particles.min.js"></script>
     <script>
-        particlesJS.load('particles-js','static/js/particles.json',function() {
-            console.log('loaded');
+        particlesJS.load('particles-js', 'static/js/particles.json', function() {
+          console.log('loaded');
         });
     </script>
     <!-- Portfolio Grid Section -->
@@ -488,9 +507,9 @@
     <script src="/static/data/portfolio_data.js"></script>
     <script>
         let count = 1;
-        portfolio_data.forEach(({title, header, description}) => {
-            console.log(title);
-            const pageTemplate = `
+        portfolio_data.forEach(({ title, header, description }) => {
+          console.log(title);
+          const pageTemplate = `
             <div class="col-sm-4 portfolio-item cuadro_intro_hover">
                 <a href="#portfolioModal${count}" class="portfolio-link" data-toggle="modal">
                     <div class="caption">
@@ -511,8 +530,8 @@
                 </a>
             </div>
             `;
-            $("#portfolioData").append(pageTemplate);
-            const modalTemplate = `
+          $('#portfolioData').append(pageTemplate);
+          const modalTemplate = `
             <div class="portfolio-modal modal fade" id="portfolioModal${count}" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-content">
                     <div class="close-modal" data-dismiss="modal">
@@ -537,8 +556,8 @@
                 </div>
             </div>
             `;
-            $("#page-top").append(modalTemplate);
-            count++;
+          $('#page-top').append(modalTemplate);
+          count++;
         });
     </script>
 

@@ -213,10 +213,11 @@
     <script>
     function clearAllFields() {
       const fields = ['#name', '#email', '#phone', '#message'];
-      fields.forEach(function(each) {
+      fields.forEach(each => {
         $(each).val('');
       });
     }
+
     function validate_inputs(data) {
       const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       const phoneFormat = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
@@ -247,7 +248,7 @@
     function submitContactForm() {
       $('#successNotice').css('display', 'none');
       $('#failureNotice').css('display', 'none');
-      data = {
+      const data = {
         name: $('#name').val(),
         email: $('#email').val(),
         phone: $('#phone').val(),

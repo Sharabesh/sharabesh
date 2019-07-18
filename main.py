@@ -6,7 +6,6 @@ import tornado.ioloop
 import tornado.web
 from models import *
 from mailer import *
-import json
 from remainder import *
 
 class MainHandler(tornado.web.RequestHandler):
@@ -46,12 +45,11 @@ class NotFoundHandler(tornado.web.ErrorHandler, tornado.web.RequestHandler):
         self.set_status(404)
         self.render("static/html/404.html")
 
-# class StaticNotFoundHandler(tornado.web.StaticFileHandler):
-#     def write_error(self, status_code, *args, **kwargs):
-#         # custom 404 page
-#         print("I AM HERE")
-#         print("STATUS CODE IS ",status_code)
-#         self.render('static/html/404.html')
+class StaticNotFoundHandler(tornado.web.StaticFileHandler):
+    def write_error(self, status_code, *args, **kwargs):
+        # custom 404 page
+        if status_code == 404:
+            self.render('static/html/404.html')
 
 
 class ResponseHandler(tornado.web.RequestHandler):
@@ -71,10 +69,6 @@ class EducationHandler(tornado.web.RequestHandler):
         self.render("static/html/new_education.html")
 
 
-# class KernalHandler(tornado.web.RequestHandler):
-#     def get(self):
-#         self.render("static/html/Kernels.html")
-
 
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
@@ -89,7 +83,7 @@ settings = {
 def make_app():
     debug = not bool(os.environ.get("PRODUCTION"))
     return tornado.web.Application([
-        (r"/static/(.*)", tornado.web.StaticFileHandler,
+        (r"/static/(.*)", StaticNotFoundHandler,
          dict(path=settings["static_path"])),
         (r"/", MainHandler),
         (r"/contact", ContactHandler),
@@ -99,7 +93,7 @@ def make_app():
         (r"/remainder", RemainderHandler),
         (r"/socket", WebSocketHandler),
         (r"/messenger", SocketHandler)
-    ], debug=debug, **settings)
+    ], debug=debug, static_handler_class=StaticNotFoundHandler, **settings)
 
 
 if __name__ == "__main__":
