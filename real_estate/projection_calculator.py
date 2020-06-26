@@ -94,7 +94,11 @@ def get_total_expenses():
 
 def calculate_financing_assumptions(acquisition_cost, ltv_percentage) -> Dict[str, int]:
     total_cost = get_total_expenses()
-    m = Mortgage(interest=INTEREST, amount=total_cost, months=12 * AMORTIZATION_YEARS)
+    m = Mortgage(
+        interest=INTEREST,
+        amount=total_cost * ltv_percentage,
+        months=12 * AMORTIZATION_YEARS,
+    )
     return {
         "Loan Amount": total_cost * ltv_percentage,
         "Equity Required": total_cost - (total_cost * ltv_percentage),
@@ -137,6 +141,8 @@ def get_operating_cash_flow(year_number=0):
     equity_invested = calculate_financing_assumptions(ACQUISITION_COST, LTV_PERCENTAGE)[
         "Equity Required"
     ]
+    if year_number == HOLD_TERM_YEARS - 1:
+        years_noi += get_sale_proceeds(HOLD_TERM_YEARS)
     annual_debt_payment = calculate_financing_assumptions(
         ACQUISITION_COST, LTV_PERCENTAGE
     )["Annual Payment"]
@@ -146,7 +152,9 @@ def get_operating_cash_flow(year_number=0):
 
 def get_sale_proceeds(year_number):
     """Calculates the cash out from equity at Year N"""
-    total_cost = get_total_expenses()
+    total_cost = calculate_financing_assumptions(ACQUISITION_COST, LTV_PERCENTAGE)[
+        "Loan Amount"
+    ]
     m = Mortgage(interest=INTEREST, amount=total_cost, months=12 * AMORTIZATION_YEARS)
     return _get_principle_paid_since(year_number, m)
 
@@ -160,15 +168,21 @@ def calculate_financial_ratios():
     sum_of_cash_flows = sum(
         [get_operating_cash_flow(year) for year in range(HOLD_TERM_YEARS)]
     ) + get_sale_proceeds(HOLD_TERM_YEARS)
-    print("Operating cash flows ", [get_operating_cash_flow(year) for year in range(HOLD_TERM_YEARS)])
+    print(
+        "Operating cash flows ",
+        [get_operating_cash_flow(year) for year in range(HOLD_TERM_YEARS)],
+    )
 
     return {
-        "Cap Rate": get_noi() / ACQUISITION_COST,
-        "Year 1 Cash on Cash": get_noi() - annual_payment,
-        "DSCR": -get_noi() / annual_payment,
-        "Debt Yield": get_noi() / loan_amount,
-        "Projected Equity Multiple": sum_of_cash_flows / equity_invested,
+        "Cap Rate": round((get_noi() / ACQUISITION_COST) * 100, 2),
+        "Year 1 Cash on Cash": round(
+            (get_operating_cash_flow() / equity_invested) * 100, 2
+        ),
+        "DSCR": get_noi() / annual_payment,
+        "Debt Yield": round((get_noi() / loan_amount * 100), 2),
+        "Projected Equity Multiple": round(sum_of_cash_flows / equity_invested, 3),
         "Projected IRR": np.irr(
-            [get_operating_cash_flow(year) for year in range(HOLD_TERM_YEARS)]
+            [-equity_invested]
+            + [get_operating_cash_flow(year) for year in range(HOLD_TERM_YEARS)]
         ),
     }
